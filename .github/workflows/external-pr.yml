@@ -35,7 +35,7 @@ jobs:
             The goal of this issue is to track merging activity and allow merging if PR is approved 
           fields: >-
             {
-            "components": {"name": "Ansible Deployment"},
+            "components": [{"name": "Ansible Deployment"}],
             "assignee": "${{ env.GITHUB_ACTOR }}"
             }
       - name: return Issue

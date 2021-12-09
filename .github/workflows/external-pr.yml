@@ -1,0 +1,10 @@
+on:
+  label:
+
+jobs:
+  external_PR:
+    name: External PR acceptance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug action
+        uses: hmarr/debug-action@v2.0.1

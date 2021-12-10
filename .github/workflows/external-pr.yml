@@ -12,7 +12,7 @@ jobs:
     if: >-
       github.event.label.name == 'ready-to-test' &&
       github.event.pull_request.base.repo.default_branch == github.event.pull_request.base.ref
-      #!github.event.pull_request.merged
+      github.event.pull_request.merged
     steps:
       - name: Debug action
         uses: hmarr/debug-action@v2.0.1

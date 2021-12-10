@@ -9,7 +9,10 @@ jobs:
     env:
       JIRA_BASE_URL: https://alfresco.atlassian.net
       JIRA_USER_EMAIL: alexandre.chapellon@alfresco.com
-    if: github.event.label.name == 'ready-to-test'
+    if: >-
+      github.event.label.name == 'ready-to-test' &&
+      github.event.pull_request.base.repo.default_branch == github.event.pull_request.base.ref
+      #!github.event.pull_request.merged
     steps:
       - name: Debug action
         uses: hmarr/debug-action@v2.0.1
@@ -38,5 +41,16 @@ jobs:
             "components": [{"name": "Ansible Deployment"}],
             "assignee": "${{ env.GITHUB_ACTOR }}"
             }
-      - name: return Issue
-        run: echo "Issue ${{ steps.jira_create.outputs.issue }} was created"
+      - name: Create PR branch to trigger Travis builds
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        with:
+          branch: ${{ steps.jira_create.outputs.issue }}
+      - name: Comment explainations on PR
+        uses: github-actions-up-and-running/pr-comment@v1.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            Thank you for your interest to our project. We value your contribution and agreed it would be a good addititon to the code base.
+            Nevertheless, any code needs to pass the CI tests before being merged to ${{ igithub.event.pull_request.base.repo.default_branch }}.
+            In order to further proceed with your PR we ask you to please re-submit the PR to the ${{ steps.jira_create.outputs.issue }} brnch instead            of ${{ github.event.pull_request.base.ref }}.
+            Thank you for your patience, we hope to come up with a more straigh forward process in the future.

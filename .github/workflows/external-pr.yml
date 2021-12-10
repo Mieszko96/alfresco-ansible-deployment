@@ -7,6 +7,7 @@ jobs:
     name: External PR acceptance
     runs-on: ubuntu-latest
     env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       JIRA_BASE_URL: https://alfresco.atlassian.net
       JIRA_USER_EMAIL: alexandre.chapellon@alfresco.com
     if: >-
@@ -23,8 +24,6 @@ jobs:
       - id: jira_create
         name: Create JIRA issue
         uses: atlassian/gajira-create@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           project: OPSEXP
           issuetype: Task

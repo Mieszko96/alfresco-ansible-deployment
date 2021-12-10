@@ -11,7 +11,7 @@ jobs:
       JIRA_USER_EMAIL: alexandre.chapellon@alfresco.com
     if: >-
       github.event.label.name == 'ready-to-test' &&
-      github.event.pull_request.base.repo.default_branch == github.event.pull_request.base.ref
+      github.event.pull_request.base.repo.default_branch == github.event.pull_request.base.ref &&
       github.event.pull_request.merged
     steps:
       - name: Debug action

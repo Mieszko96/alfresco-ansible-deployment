@@ -51,6 +51,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message: |
             Thank you for your interest to our project. We value your contribution and agreed it would be a good addititon to the code base.
-            Nevertheless, any code needs to pass the CI tests before being merged to ${{ igithub.event.pull_request.base.repo.default_branch }}.
+            Nevertheless, any code needs to pass the CI tests before being merged to ${{ github.event.pull_request.base.repo.default_branch }}.
             In order to further proceed with your PR we ask you to please re-submit the PR to the ${{ steps.jira_create.outputs.issue }} brnch instead            of ${{ github.event.pull_request.base.ref }}.
             Thank you for your patience, we hope to come up with a more straigh forward process in the future.

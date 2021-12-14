@@ -1,0 +1,41 @@
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  check_target:
+  runs-on: ubuntu-latest
+  if: github.event.pull_request.head.repo.full_name != github.event.pull_request.repository.full_name && github.event.pull_request.base.ref != 'contribs'
+  steps:
+    - name: Comment explainations on PR
+      uses: github-actions-up-and-running/pr-comment@v1.0.1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        message: |
+          Thank you for your interest to our project. We value every contribution we receive.
+          However, we do do not accept Pull Requests against the ${{ github.event.pull_request.base.repo.default_branch }} branch.
+          Please re-submit your PR against the "contribs" branch.
+
+    - name: Close PR with wrong target
+      run: |
+        curl \
+          -u ${{ secrets.GITHUB_TOKEN }}:x-oauth-basic
+          -X PATCH \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ env.GITHUB_REPOSITORY }}/pulls/${{ github.event.number }} \
+          -d '{"state": "closed"}'
+  test_contribs:
+    if: github.event.pull_request.base.ref == 'contribs'
+    runs-on: ubuntu-latest
+    steps:
+      - name: ansible-lint
+        uses: ansible/ansible-lint-action@v4.1.0.post0
+        with:
+          target: playbooks/acs.yml
+      - name: Pylint action
+        uses: gabriel-milan/action-pylint@v1
+        with:
+          path: "roles/*/molecule/*/*/*.py"
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v3.1.0 

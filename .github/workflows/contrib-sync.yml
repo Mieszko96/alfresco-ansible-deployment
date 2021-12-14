@@ -1,0 +1,16 @@
+on:
+  push:
+    - master
+
+jobs:
+  sync-contribs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug action
+        uses: hmarr/debug-action@v2.0.1
+      - name: Sync Branch
+        uses: connor-baer/action-sync-branch@v.1.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: contribs
+          force: true

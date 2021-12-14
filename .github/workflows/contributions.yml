@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.head.repo.full_name != github.event.pull_request.repository.full_name && github.event.pull_request.base.ref != 'contribs'
     steps:
+      - name: local debug
+        run: echo ${{ github.event.pull_request.head.repo.full_name }} to ${{ github.event.pull_request.repository.full_name }} in branch ${{ github.event.pull_request.base.ref }}
       - name: Comment explainations on PR
         uses: github-actions-up-and-running/pr-comment@v1.0.1
         with:

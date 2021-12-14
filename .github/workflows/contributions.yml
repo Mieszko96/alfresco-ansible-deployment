@@ -19,7 +19,7 @@ jobs:
 
       - name: Close PR with wrong target
         run: >-
-          curl \
+          curl 
             -u ${{ secrets.GITHUB_TOKEN }}:x-oauth-basic 
             -X PATCH 
             -H "Accept: application/vnd.github.v3+json" 

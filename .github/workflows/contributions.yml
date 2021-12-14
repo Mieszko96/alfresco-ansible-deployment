@@ -4,6 +4,11 @@ on:
       - opened
 
 jobs:
+  actions_debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug action
+        uses: hmarr/debug-action@v2.0.1
   check_target:
     runs-on: ubuntu-latest
     if: github.event.pull_request.head.repo.full_name != github.event.pull_request.repository.full_name && github.event.pull_request.base.ref != 'contribs'

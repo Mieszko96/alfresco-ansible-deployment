@@ -1,6 +1,7 @@
 on:
   push:
-    - master
+    bracnhes:
+      - master
 
 jobs:
   sync-contribs:

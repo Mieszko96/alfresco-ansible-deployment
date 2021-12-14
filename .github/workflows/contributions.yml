@@ -23,15 +23,12 @@ jobs:
             Please re-submit your PR against the "contribs" branch.
 
       - name: Close PR with wrong target
-        env:
-          PRURL: ${{ github.event.pull_request.self }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl \
-            -u ${GITHUB_TOKEN}:x-oauth-basic \
+            -u ${{ secrets.GITHUB_TOKEN }}:x-oauth-basic \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
-            ${PRURL} \
+            ${{ github.event.pull_request._links.self }} \
             -d '{"state": "closed"}'
   test_contribs:
     if: github.event.pull_request.base.ref == 'contribs'

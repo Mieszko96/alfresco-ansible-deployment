@@ -11,10 +11,8 @@ jobs:
         uses: hmarr/debug-action@v2.0.1
   check_target:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name != github.event.pull_request.repository.full_name && github.event.pull_request.base.ref != 'contribs'
+    if: github.event.pull_request.head.repo.full_name != github.event.repository.full_name && github.event.pull_request.base.ref != 'contribs'
     steps:
-      - name: local debug
-        run: echo ${{ github.event.pull_request.head.repo.full_name }} to ${{ github.event.pull_request.repository.full_name }} in branch ${{ github.event.pull_request.base.ref }}
       - name: Comment explainations on PR
         uses: github-actions-up-and-running/pr-comment@v1.0.1
         with:
@@ -30,7 +28,7 @@ jobs:
             -u ${{ secrets.GITHUB_TOKEN }}:x-oauth-basic \
             -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
-            ${{ github.event.pull_request._links.self }} \
+            ${{ github.event.pull_request._links.self.href }} \
             -d '{"state": "closed"}'
   test_contribs:
     if: github.event.pull_request.base.ref == 'contribs'
